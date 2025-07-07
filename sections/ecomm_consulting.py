@@ -17,7 +17,7 @@ def run():
     for img_file in image_files:
         img_path = os.path.join(image_folder, img_file)
         image = Image.open(img_path)
-        st.image(image, use_column_width=True, caption=f"Page {img_file.split('.')[0]}")
+        st.image(image, use_container_width=True, caption=f"Page {img_file.split('.')[0]}")
 
     st.success("✅ End of Report")
 
