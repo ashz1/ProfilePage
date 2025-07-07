@@ -59,7 +59,7 @@ def run():
     st.markdown("View or download the full consulting report below:")
 
     # Display PDF inline
-    pdf_path = "eComm-India.pdf"
+    pdf_path = "eComm India.pdf"
     try:
         with open(pdf_path, "rb") as f:
             base64_pdf = base64.b64encode(f.read()).decode('utf-8')
