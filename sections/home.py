@@ -19,4 +19,4 @@ Off the clock, I’m usually behind a camera in nature, catching waves, kicking 
 """)
 
     with col2:
-        st.image("images/profile.jpg", use_column_width=True, caption="Aashay Zende")
+        st.image("images/6.jpg", use_column_width=True)
