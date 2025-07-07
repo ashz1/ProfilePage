@@ -25,13 +25,8 @@ from utilities import render_about_information
 render_about_information()
 tabs = st.tabs([
     "Home",
-    "After Hours",
-    "Carvana Case Study Analysis",
-    "E‑Commerce Consulting Insights",
-    "PowerBI",
-    "Project Boston",
-    "Random Widget Generator",
-    "Tableau Dashboard"
+
+    "Project Boston"
 ])
 
 # Assign tab components
