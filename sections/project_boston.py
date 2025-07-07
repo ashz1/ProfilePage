@@ -1,12 +1,13 @@
-def run():
-    import streamlit as st
-    import geopandas as gpd
-    import pandas as pd
-    import folium
-    from shapely import wkt
-    from streamlit_folium import folium_static
-    import plotly.graph_objects as go
+import streamlit as st
+import geopandas as gpd
+import pandas as pd
+import folium
+from shapely import wkt
+from streamlit_folium import folium_static
+import plotly.graph_objects as go
+import os
 
+def run():
     st.markdown("""
         <style>
             .metric-card {
@@ -43,7 +44,6 @@ def run():
 
     neighborhoods, survey_df, merged_gdf = load_data()
 
-    # Dropdown for analysis selection
     analysis = st.selectbox(
         "Select Analysis Section",
         [
@@ -178,7 +178,6 @@ def run():
             comp = merged_gdf[merged_gdf["neighborhood"].isin(choices)]
             mean_vals = comp.groupby("neighborhood")[metrics].mean().reset_index()
 
-            # Min-max normalization for each metric
             norm_means = mean_vals.copy()
             for metric in metrics:
                 min_val = mean_vals[metric].min()
@@ -186,7 +185,7 @@ def run():
                 if max_val > min_val:
                     norm_means[metric] = (mean_vals[metric] - min_val) / (max_val - min_val)
                 else:
-                    norm_means[metric] = 0  # If all values are the same
+                    norm_means[metric] = 0
 
             fig = go.Figure()
             for _, row in norm_means.iterrows():
@@ -204,14 +203,20 @@ def run():
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.warning("Please select between 3 and 6 neighborhoods.")
+
+    # ⬇️ Display Slide Images at the Bottom
+    st.markdown("---")
+    st.markdown("## 📊 Appendix: Full Report Slides")
+
     slides_folder = "slides"
 
-    # Sort slides like Slide1.jpeg, Slide2.jpeg, ..., Slide18.jpeg
-     slide_images = sorted(
-        [img for img in os.listdir(slides_folder) if img.endswith(".jpeg")],
-        key=lambda x: int(''.join(filter(str.isdigit, x)))
-    )
-
-    for slide in slide_images:
-        slide_path = os.path.join(slides_folder, slide)
-        st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
+    if os.path.exists(slides_folder):
+        slide_images = sorted(
+            [img for img in os.listdir(slides_folder) if img.endswith(".jpeg")],
+            key=lambda x: int(''.join(filter(str.isdigit, x)))
+        )
+        for slide in slide_images:
+            slide_path = os.path.join(slides_folder, slide)
+            st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
+    else:
+        st.warning("Slides folder not found. Please check your directory structure.")
