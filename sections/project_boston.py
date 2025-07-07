@@ -1,6 +1,6 @@
 # sections/project_boston.py
 
-def run():
+def run_project_boston():
     import streamlit as st
     import geopandas as gpd
     import pandas as pd
