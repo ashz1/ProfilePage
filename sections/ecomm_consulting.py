@@ -7,10 +7,6 @@ def run():
     from pdf2jpg import pdf2jpg
 
     st.title("Consulting Insights: Indian E-Commerce Market")
-    st.markdown("""
-    The Indian e-commerce market has demonstrated robust growth, innovation, and resilience. Here are the key insights and trends shaping the industry in 2022 and beyond.
-    """)
-
     st.divider()
     st.header("📄 Full Report (as Scrollable Image)")
 
@@ -22,7 +18,6 @@ def run():
         return tmp_dir
 
     def crop_white_space(img_arr):
-        # Convert to grayscale if needed
         if img_arr.ndim == 3:
             gray = np.mean(img_arr, axis=2)
         else:
@@ -44,11 +39,22 @@ def run():
     display_method = "images"
     if display_method == "images":
         tmp_sub_folder_path = create_tmp_sub_folder()
+        os.makedirs(tmp_sub_folder_path, exist_ok=True)
+
+        # Debug: Print paths
+        st.write("PDF path:", os.path.abspath(pdf_path))
+        st.write("Output folder:", os.path.abspath(tmp_sub_folder_path))
+
+        # Convert PDF to JPG
         result = pdf2jpg.convert_pdf2jpg(pdf_path, tmp_sub_folder_path, pages="ALL")
 
         # Robust check for result structure
         if not result or not isinstance(result, list) or "output_jpgfiles" not in result[0]:
-            st.error("PDF conversion failed. Please check the PDF file and try again.")
+            st.error(
+                "PDF conversion failed. "
+                "Make sure Java is installed and accessible, "
+                "the PDF file exists, and the output folder is writable."
+            )
             try_remove(tmp_sub_folder_path)
             return
 
