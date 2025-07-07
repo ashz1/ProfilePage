@@ -5,7 +5,6 @@ def run():
     import folium
     from shapely import wkt
     from streamlit_folium import folium_static
-    import plotly.express as px
     import plotly.graph_objects as go
 
     st.markdown("""
@@ -59,23 +58,31 @@ def run():
 
     if analysis == "📈 Market Overview":
         st.markdown("## Market Overview", unsafe_allow_html=True)
-        avg_start = merged_gdf["FY2000.AV_mean"].mean()
-        avg_end   = merged_gdf["FY2021.AV_mean"].mean()
-        delta_pct = (avg_end - avg_start) / avg_start * 100
+        # Use only columns that exist: FY2000.AV_mean and FY2021.AV_mean
+        avg_2000 = merged_gdf["FY2000.AV_mean"].mean()
+        avg_2021 = merged_gdf["FY2021.AV_mean"].mean()
+        delta_pct = (avg_2021 - avg_2000) / avg_2000 * 100
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown(f'<div class="metric-card"><h4>2000 Avg Value</h4><h2>${avg_start:,.0f}</h2></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-card"><h4>2000 Avg Value</h4><h2>${avg_2000:,.0f}</h2></div>', unsafe_allow_html=True)
         with col2:
-            st.markdown(f'<div class="metric-card"><h4>2021 Avg Value</h4><h2>${avg_end:,.0f}</h2></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="metric-card"><h4>2021 Avg Value</h4><h2>${avg_2021:,.0f}</h2></div>', unsafe_allow_html=True)
         with col3:
             st.markdown(f'<div class="metric-card"><h4>Change</h4><h2>{delta_pct:.1f}%</h2></div>', unsafe_allow_html=True)
 
-        fig = px.bar(
-            merged_gdf.groupby("year").mean().reset_index(),
-            x="year", y="AV_mean",
-            title="Citywide Average Property Value Over Time",
-            labels={"AV_mean": "Avg Value ($)"}
+        # Bar chart comparing 2000 and 2021
+        bar_data = {
+            "Year": ["2000", "2021"],
+            "Average Value": [avg_2000, avg_2021]
+        }
+        fig = go.Figure(
+            data=[go.Bar(x=bar_data["Year"], y=bar_data["Average Value"], marker_color=["#1f77b4", "#ff7f0e"])]
+        )
+        fig.update_layout(
+            title="Citywide Average Property Value: 2000 vs 2021",
+            yaxis_title="Avg Value ($)",
+            xaxis_title="Year"
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -104,14 +111,19 @@ def run():
         total_crime = merged_gdf[crime_types].sum(axis=1)
         df_crime = merged_gdf.assign(total_crime=total_crime).sort_values("total_crime", ascending=False)
         top = st.slider("Show top N neighborhoods by total crime", 5, 20, 10)
-        fig = px.bar(
-            df_crime.head(top),
-            x="neighborhood", y="total_crime",
+        fig = go.Figure(
+            data=[go.Bar(
+                x=df_crime.head(top)["neighborhood"],
+                y=df_crime.head(top)["total_crime"],
+                marker_color="#1f77b4"
+            )]
+        )
+        fig.update_layout(
             title="Total Crime Incidents",
-            labels={"total_crime": "Total Crimes"}
+            xaxis_title="Neighborhood",
+            yaxis_title="Total Crimes"
         )
         st.plotly_chart(fig, use_container_width=True)
-
         st.markdown('<div class="insight-box">📌 <strong>Insight:</strong> Dorchester and Roxbury have the highest crime counts, indicating priority areas for community policing.</div>', unsafe_allow_html=True)
 
     elif analysis == "🏘️ Neighborhood Stats":
@@ -120,17 +132,29 @@ def run():
             "LIVING_AREA_mean": "mean",
             "RES_FLOOR_mean": "mean"
         }).reset_index()
-        fig1 = px.bar(
-            stats.sort_values("LIVING_AREA_mean", ascending=False).head(10),
-            x="neighborhood", y="LIVING_AREA_mean",
-            title="Top 10 Neighborhoods by Avg Living Area",
-            labels={"LIVING_AREA_mean": "Avg Living Area (sq ft)"}
+        fig1 = go.Figure(
+            data=[go.Bar(
+                x=stats.sort_values("LIVING_AREA_mean", ascending=False).head(10)["neighborhood"],
+                y=stats.sort_values("LIVING_AREA_mean", ascending=False).head(10)["LIVING_AREA_mean"],
+                marker_color="#1f77b4"
+            )]
         )
-        fig2 = px.bar(
-            stats.sort_values("RES_FLOOR_mean", ascending=False).head(10),
-            x="neighborhood", y="RES_FLOOR_mean",
+        fig1.update_layout(
+            title="Top 10 Neighborhoods by Avg Living Area",
+            xaxis_title="Neighborhood",
+            yaxis_title="Avg Living Area (sq ft)"
+        )
+        fig2 = go.Figure(
+            data=[go.Bar(
+                x=stats.sort_values("RES_FLOOR_mean", ascending=False).head(10)["neighborhood"],
+                y=stats.sort_values("RES_FLOOR_mean", ascending=False).head(10)["RES_FLOOR_mean"],
+                marker_color="#ff7f0e"
+            )]
+        )
+        fig2.update_layout(
             title="Top 10 Neighborhoods by Avg Residential Floors",
-            labels={"RES_FLOOR_mean": "Avg Floors"}
+            xaxis_title="Neighborhood",
+            yaxis_title="Avg Floors"
         )
         col1, col2 = st.columns(2)
         col1.plotly_chart(fig1, use_container_width=True)
