@@ -2,9 +2,12 @@ import streamlit as st
 
 def run():
     st.title("Welcome 🎉")
-    
-    
-    st.markdown("""
+
+    # Create two columns: 2/3 width for bio, 1/3 for image
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        st.markdown("""
 **Aashay Zende** • [aashayzende@gmail.com](mailto:aashayzende@gmail.com) • +1 857‑397‑2290 • Boston, MA
 
 I turn data into decisions. As a Business Analyst with a master’s in Business Analytics and a background in engineering, I’ve built end‑to‑end BI solutions that bridge strategy and technology, guiding global teams to clearer insights and smarter actions. Whether crafting interactive dashboards, designing automated data pipelines, or developing forecasting models with high accuracy, I focus on reliability and impact.
@@ -16,4 +19,5 @@ Beyond consulting, I’m driven to lift up underserved youth through hands‑on 
 Off the clock, I’m usually behind a camera in nature, catching waves, kicking a soccer ball, or working on a canvas — see the hobbies section for more.
 """)
 
-    st.image("6.jpg", use_container_width=True)
+    with col2:
+        st.image("6.jpg", use_column_width=True)
