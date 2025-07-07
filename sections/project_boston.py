@@ -216,6 +216,6 @@ def run():
             )
             for slide in slide_images:
                 slide_path = os.path.join(slides_folder, slide)
-                st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
+                st.image(slide_path, use_container_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
         else:
             st.warning("Slides folder not found. Please check your directory structure.")
