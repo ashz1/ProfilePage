@@ -1,29 +1,25 @@
-import streamlit as st
-from pdf2image import convert_from_path
-from PIL import Image
 import os
+from PIL import Image
 
 def run():
-    st.title("Consulting Insights: Indian E-Commerce Market")
-    st.divider()
-    st.header("📄 Report Preview (Scroll to View Pages)")
+    st.title("📄 Full Report – Indian E-Commerce Consulting Insights")
+    st.write("Scroll through the pages below or download individual images as needed.")
 
-    pdf_path = "eComm India.pdf"  # Make sure this is the correct filename
+    image_folder = "imgs"
+    
+    # Collect and sort images by numeric order
+    image_files = sorted(
+        [f for f in os.listdir(image_folder) if f.endswith(".jpg")],
+        key=lambda x: int(x.split(".")[0])
+    )
 
-    try:
-        # Convert PDF to a list of image objects
-        images = convert_from_path(pdf_path, dpi=150)
+    # Display all images
+    for img_file in image_files:
+        img_path = os.path.join(image_folder, img_file)
+        image = Image.open(img_path)
+        st.image(image, use_column_width=True, caption=f"Page {img_file.split('.')[0]}")
 
-        for i, image in enumerate(images):
-            st.image(image, caption=f"Page {i + 1}", use_column_width=True)
+    st.success("✅ End of Report")
 
-        with open(pdf_path, "rb") as f:
-            st.download_button(
-                label="📥 Download Full Report (PDF)",
-                data=f,
-                file_name="eComm_India_Report.pdf",
-                mime="application/pdf"
-            )
-
-    except Exception as e:
-        st.error(f"Failed to load PDF: {e}")
+if __name__ == "__main__":
+    run()
