@@ -71,20 +71,7 @@ def run():
         with col3:
             st.markdown(f'<div class="metric-card"><h4>Change</h4><h2>{delta_pct:.1f}%</h2></div>', unsafe_allow_html=True)
 
-        # Bar chart comparing 2000 and 2021
-        bar_data = {
-            "Year": ["2000", "2021"],
-            "Average Value": [avg_2000, avg_2021]
-        }
-        fig = go.Figure(
-            data=[go.Bar(x=bar_data["Year"], y=bar_data["Average Value"], marker_color=["#1f77b4", "#ff7f0e"])]
-        )
-        fig.update_layout(
-            title="Citywide Average Property Value: 2000 vs 2021",
-            yaxis_title="Avg Value ($)",
-            xaxis_title="Year"
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        
 
     elif analysis == "🗺️ Interactive Map":
         st.markdown("## Interactive Choropleth Map", unsafe_allow_html=True)
