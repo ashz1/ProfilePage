@@ -71,6 +71,6 @@ def run():
     st.download_button(
         label="Download Full Report (PDF)",
         data=open(pdf_path, "rb").read(),
-        file_name="eComm-India.pdf",
+        file_name="eComm India.pdf",
         mime="application/pdf"
     )
