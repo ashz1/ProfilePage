@@ -56,21 +56,15 @@ def run():
     st.divider()
 
     st.header("📄 Full Report")
-    st.markdown("View or download the full consulting report below:")
 
-    # Display PDF inline
     pdf_path = "eComm India.pdf"
-    try:
-        with open(pdf_path, "rb") as f:
-            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"></iframe>'
-            st.markdown(pdf_display, unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"Could not display PDF: {e}")
-
-    st.download_button(
-        label="Download Full Report (PDF)",
-        data=open(pdf_path, "rb").read(),
-        file_name="eComm India.pdf",
-        mime="application/pdf"
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
+        st.download_button(
+            label="Download Full Report (PDF)",
+            data=pdf_bytes,
+            file_name="eComm India.pdf",
+            mime="application/pdf"
+        )
+        st.pdf(pdf_bytes)
     )
