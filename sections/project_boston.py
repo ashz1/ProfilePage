@@ -204,3 +204,14 @@ def run():
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.warning("Please select between 3 and 6 neighborhoods.")
+    slides_folder = "slides"
+
+    # Sort slides like Slide1.jpeg, Slide2.jpeg, ..., Slide18.jpeg
+     slide_images = sorted(
+        [img for img in os.listdir(slides_folder) if img.endswith(".jpeg")],
+        key=lambda x: int(''.join(filter(str.isdigit, x)))
+    )
+
+    for slide in slide_images:
+        slide_path = os.path.join(slides_folder, slide)
+        st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
