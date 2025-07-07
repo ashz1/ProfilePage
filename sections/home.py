@@ -16,4 +16,4 @@ Beyond consulting, I’m driven to lift up underserved youth through hands‑on 
 Off the clock, I’m usually behind a camera in nature, catching waves, kicking a soccer ball, or working on a canvas — see the hobbies section for more.
 """)
 
-    st.image("6.jpg", use_container_width=True)
+    st.image("6.JPG", use_container_width=True)
