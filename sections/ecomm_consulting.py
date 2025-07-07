@@ -1,6 +1,7 @@
 def run():
     import streamlit as st
     import base64
+    import os
 
     st.title("Consulting Insights: Indian E-Commerce Market")
 
@@ -54,17 +55,30 @@ def run():
     """)
 
     st.divider()
-
     st.header("📄 Full Report")
 
-    pdf_path = "eComm India.pdf"
+    pdf_path = "eComm India.pdf"  # Ensure this matches your filename exactly
+
+    if not os.path.isfile(pdf_path):
+        st.error(f"PDF file not found at: {pdf_path}")
+        return
+
+    # Display PDF inline using <embed>
     with open(pdf_path, "rb") as f:
-        pdf_bytes = f.read()
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"/>'
+        st.markdown(pdf_display, unsafe_allow_html=True)
+
+    # Always provide a download button
+    with open(pdf_path, "rb") as f:
         st.download_button(
             label="Download Full Report (PDF)",
-            data=pdf_bytes,
+            data=f,
             file_name="eComm India.pdf",
             mime="application/pdf"
         )
-        st.pdf(pdf_bytes)
-    
+
+    st.info(
+        "If the PDF does not display above, please use the download button. "
+        "Inline PDF preview may not work for all files or browsers."
+    )
