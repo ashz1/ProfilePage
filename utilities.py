@@ -9,5 +9,3 @@ def render_about_information():
         """,
         unsafe_allow_html=True
     )
-
-    st.subheader("[aashayzende@gmail.com](mailto:aashayzende@gmail.com) • +1 857‑397‑2290 • Boston, MA", divider=True)
