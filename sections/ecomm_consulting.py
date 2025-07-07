@@ -1,6 +1,6 @@
 import os
 from PIL import Image
-
+import streamlit as st
 def run():
     st.title("📄 Full Report – Indian E-Commerce Consulting Insights")
     st.write("Scroll through the pages below or download individual images as needed.")
