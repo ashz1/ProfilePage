@@ -18,36 +18,25 @@ st.set_page_config(
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-# … (SVG/email renderer if needed, omit or adapt)
-
 from utilities import render_about_information
 
 render_about_information()
+
 tabs = st.tabs([
     "Home",
-
     "Project Boston"
 ])
 
-# Assign tab components
-(
-    tab_home,
-    
-    tab_project_boston,
-    
-) = tabs
+tab_home, tab_project_boston = tabs
 
 with tab_home:
     from sections.home import run as run_home
     run_home()
 
-
-
 with tab_project_boston:
+    # Import and run only when this tab is active
     from sections.project_boston import run as run_project_boston
     run_project_boston()
-
-
 
 st.divider()
 st.markdown('[Back to Top](#aashay‑zende‑portfolio)')
