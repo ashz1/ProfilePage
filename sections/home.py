@@ -1,9 +1,6 @@
 import streamlit as st
 
 def run():
-    st.title("[aashayzende@gmail.com](mailto:aashayzende@gmail.com) • +1 857‑397‑2290 • Boston, MA") 
-    st.subheader("[aashayzende@gmail.com](mailto:aashayzende@gmail.com) • +1 857‑397‑2290 • Boston, MA", anchor=None, *, help=None, divider=True)
-    # Create two columns: 2/3 width for bio, 1/3 for image
     col1, col2 = st.columns([2, 1])
 
     with col1:
