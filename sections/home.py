@@ -20,4 +20,4 @@ st.write("""
 Off the clock, I’m usually behind a camera in nature, catching waves, kicking a soccer ball, or working on a canvas—see the hobbies section for more.  /n
     
     """)
-    st.button("Contact Me", key="home_contact") 
+st.button("Contact Me", key="home_contact") 
