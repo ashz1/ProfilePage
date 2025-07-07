@@ -1,6 +1,6 @@
 def run():
     import streamlit as st
-    import base64
+    from streamlit_pdf_viewer import pdf_viewer
     import os
 
     st.title("Consulting Insights: Indian E-Commerce Market")
@@ -63,11 +63,8 @@ def run():
         st.error(f"PDF file not found at: {pdf_path}")
         return
 
-    # Display PDF inline using <embed>
-    with open(pdf_path, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"/>'
-        st.markdown(pdf_display, unsafe_allow_html=True)
+    # Display PDF using streamlit-pdf-viewer
+    pdf_viewer(pdf_path)
 
     # Always provide a download button
     with open(pdf_path, "rb") as f:
@@ -79,6 +76,5 @@ def run():
         )
 
     st.info(
-        "If the PDF does not display above, please use the download button. "
-        "Inline PDF preview may not work for all files or browsers."
+        "If the PDF does not display above, please use the download button."
     )
