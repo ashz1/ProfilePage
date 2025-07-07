@@ -11,8 +11,6 @@ def run():
     The Indian e-commerce market has demonstrated robust growth, innovation, and resilience. Here are the key insights and trends shaping the industry in 2022 and beyond.
     """)
 
-    # ... [Your summary/insight sections here] ...
-
     st.divider()
     st.header("📄 Full Report (as Scrollable Image)")
 
@@ -29,13 +27,12 @@ def run():
             gray = np.mean(img_arr, axis=2)
         else:
             gray = img_arr
-        # Find all rows and columns that are not white (tolerance)
         mask = gray < 250
         coords = np.argwhere(mask)
         if coords.size == 0:
-            return img_arr  # nothing to crop
+            return img_arr
         y0, x0 = coords.min(axis=0)
-        y1, x1 = coords.max(axis=0) + 1  # slices are exclusive at the top
+        y1, x1 = coords.max(axis=0) + 1
         return img_arr[y0:y1, x0:x1]
 
     def try_remove(path):
@@ -46,25 +43,31 @@ def run():
 
     display_method = "images"
     if display_method == "images":
-        # Create temporary folder for generated image
         tmp_sub_folder_path = create_tmp_sub_folder()
-
-        # Save images in that sub-folder
         result = pdf2jpg.convert_pdf2jpg(pdf_path, tmp_sub_folder_path, pages="ALL")
+
+        # Robust check for result structure
+        if not result or not isinstance(result, list) or "output_jpgfiles" not in result[0]:
+            st.error("PDF conversion failed. Please check the PDF file and try again.")
+            try_remove(tmp_sub_folder_path)
+            return
+
         images = []
         for image_path in result[0]["output_jpgfiles"]:
             images.append(np.array(Image.open(image_path)))
 
-        # Create merged image from all images + remove irrelevant whitespace
+        if not images:
+            st.error("No images were generated from the PDF.")
+            try_remove(tmp_sub_folder_path)
+            return
+
         merged_arr = np.concatenate(images, axis=0)
         merged_arr = crop_white_space(merged_arr)
         merged_path = os.path.join(tmp_sub_folder_path, "merged.jpeg")
         Image.fromarray(merged_arr).save(merged_path, quality=95)
 
-        # Display the image
         st.image(merged_path, use_column_width=True, caption="Full Report (scroll to view)")
 
-        # Download button for the merged image
         with open(merged_path, "rb") as f:
             st.download_button(
                 label="Download Full Report as Image (JPEG)",
