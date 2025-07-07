@@ -1,3 +1,5 @@
+# sections/project_boston.py
+
 def run():
     import streamlit as st
     import geopandas as gpd
@@ -8,7 +10,6 @@ def run():
     import plotly.express as px
     import plotly.graph_objects as go
 
-    # Page config (optional, Streamlit ignores after first call)
     st.markdown("""
         <style>
             .metric-card {
