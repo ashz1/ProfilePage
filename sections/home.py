@@ -2,13 +2,21 @@ import streamlit as st
 
 def run():
     st.title("Welcome 🎉")
-    st.write("I'm Aashay Zende — Business Analyst, Data Engineer & Educator.")
-    st.write("""
-    Aashay Zende   •   aashayzende@gmail.com   •   +1 857‑397‑2290   •   Boston, MA
+    
+    col1, col2 = st.columns([2, 1])  # Wider left column for bio, right for image
 
-I turn data into decisions. As a Business Analyst with a master’s in Business Analytics and a background in engineering, I’ve built end‑to‑end BI solutions that bridge strategy and technology, guiding global teams to clearer insights and smarter actions. Whether crafting interactive dashboards, designing automated data pipelines, or developing forecasting models with high accuracy, I focus on reliability and impact. My collaborative approach brings together finance, product, and development stakeholders to co‑create solutions that streamline processes and spotlight growth opportunities.  \n
+    with col1:
+        st.markdown("""
+**Aashay Zende** • [aashayzende@gmail.com](mailto:aashayzende@gmail.com) • +1 857‑397‑2290 • Boston, MA
+
+I turn data into decisions. As a Business Analyst with a master’s in Business Analytics and a background in engineering, I’ve built end‑to‑end BI solutions that bridge strategy and technology, guiding global teams to clearer insights and smarter actions. Whether crafting interactive dashboards, designing automated data pipelines, or developing forecasting models with high accuracy, I focus on reliability and impact.
+
+My collaborative approach brings together finance, product, and development stakeholders to co‑create solutions that streamline processes and spotlight growth opportunities.
 
 Beyond consulting, I’m driven to lift up underserved youth through hands‑on teaching and mentoring. I teach game programming, 3D design & printing, and robotics at Dudley Street Charter School and Pathway Initiative – TSNE Boston.
-     
-Off the clock, I’m usually behind a camera in nature, catching waves, kicking a soccer ball, or working on a canvas — see the hobbies section for more.  \n
-              """)
+
+Off the clock, I’m usually behind a camera in nature, catching waves, kicking a soccer ball, or working on a canvas — see the hobbies section for more.
+""")
+
+    with col2:
+        st.image("images/profile.jpg", use_column_width=True, caption="Aashay Zende")
