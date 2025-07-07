@@ -19,4 +19,4 @@ Off the clock, I’m usually behind a camera in nature, catching waves, kicking 
 """)
 
     with col2:
-           st.image("6.jpg", use_container_width=True)
+           st.image("../6.jpg", use_container_width=True)
