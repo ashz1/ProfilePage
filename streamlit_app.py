@@ -1,5 +1,4 @@
 import streamlit as st
-import base64
 import sys
 from pathlib import Path
 
@@ -34,7 +33,6 @@ with tab_home:
     run_home()
 
 with tab_project_boston:
-    # Import and run only when this tab is active
     from sections.project_boston import run as run_project_boston
     run_project_boston()
 
