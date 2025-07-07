@@ -1,5 +1,3 @@
-# sections/project_boston.py
-
 def run():
     import streamlit as st
     import geopandas as gpd
@@ -46,17 +44,20 @@ def run():
 
     neighborhoods, survey_df, merged_gdf = load_data()
 
-    st.sidebar.title("🔍 Explore Sections")
-    section = st.sidebar.radio("", [
-        "📈 Market Overview",
-        "🗺️ Interactive Map",
-        "📉 Safety Analysis",
-        "🏘️ Neighborhood Stats",
-        "📝 Survey Insights",
-        "⚖️ Comparative Analysis"
-    ])
+    # Dropdown for analysis selection
+    analysis = st.selectbox(
+        "Select Analysis Section",
+        [
+            "📈 Market Overview",
+            "🗺️ Interactive Map",
+            "📉 Safety Analysis",
+            "🏘️ Neighborhood Stats",
+            "📝 Survey Insights",
+            "⚖️ Comparative Analysis"
+        ]
+    )
 
-    if section == "📈 Market Overview":
+    if analysis == "📈 Market Overview":
         st.markdown("## Market Overview", unsafe_allow_html=True)
         avg_start = merged_gdf["FY2000.AV_mean"].mean()
         avg_end   = merged_gdf["FY2021.AV_mean"].mean()
@@ -78,7 +79,7 @@ def run():
         )
         st.plotly_chart(fig, use_container_width=True)
 
-    elif section == "🗺️ Interactive Map":
+    elif analysis == "🗺️ Interactive Map":
         st.markdown("## Interactive Choropleth Map", unsafe_allow_html=True)
         metric = st.selectbox(
             "Select Metric",
@@ -97,7 +98,7 @@ def run():
         ).add_to(m)
         folium_static(m, height=600)
 
-    elif section == "📉 Safety Analysis":
+    elif analysis == "📉 Safety Analysis":
         st.markdown("## Crime Rates by Neighborhood", unsafe_allow_html=True)
         crime_types = ["robbery", "drug", "assault", "SHOOTING"]
         total_crime = merged_gdf[crime_types].sum(axis=1)
@@ -113,7 +114,7 @@ def run():
 
         st.markdown('<div class="insight-box">📌 <strong>Insight:</strong> Dorchester and Roxbury have the highest crime counts, indicating priority areas for community policing.</div>', unsafe_allow_html=True)
 
-    elif section == "🏘️ Neighborhood Stats":
+    elif analysis == "🏘️ Neighborhood Stats":
         st.markdown("## Living Area & Floors Analysis", unsafe_allow_html=True)
         stats = merged_gdf.groupby("neighborhood").agg({
             "LIVING_AREA_mean": "mean",
@@ -135,7 +136,7 @@ def run():
         col1.plotly_chart(fig1, use_container_width=True)
         col2.plotly_chart(fig2, use_container_width=True)
 
-    elif section == "📝 Survey Insights":
+    elif analysis == "📝 Survey Insights":
         st.markdown("## Community Survey Highlights", unsafe_allow_html=True)
         st.dataframe(survey_df)
         summary = survey_df.describe().T
@@ -143,7 +144,7 @@ def run():
             "mean": "{:.2f}", "std": "{:.2f}", "min": "{:.0f}", "max": "{:.0f}"
         }))
 
-    elif section == "⚖️ Comparative Analysis":
+    elif analysis == "⚖️ Comparative Analysis":
         st.markdown("## Neighborhood Value Comparison Radar", unsafe_allow_html=True)
         choices = st.multiselect("Select neighborhoods (3–6)", merged_gdf["neighborhood"].unique().tolist(), ["Back Bay", "Roxbury", "Dorchester"])
         if 3 <= len(choices) <= 6:
