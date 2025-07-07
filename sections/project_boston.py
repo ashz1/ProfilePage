@@ -58,7 +58,6 @@ def run():
 
     if analysis == "📈 Market Overview":
         st.markdown("## Market Overview", unsafe_allow_html=True)
-        # Use only columns that exist: FY2000.AV_mean and FY2021.AV_mean
         avg_2000 = merged_gdf["FY2000.AV_mean"].mean()
         avg_2021 = merged_gdf["FY2021.AV_mean"].mean()
         delta_pct = (avg_2021 - avg_2000) / avg_2000 * 100
@@ -71,7 +70,19 @@ def run():
         with col3:
             st.markdown(f'<div class="metric-card"><h4>Change</h4><h2>{delta_pct:.1f}%</h2></div>', unsafe_allow_html=True)
 
-        
+        bar_data = {
+            "Year": ["2000", "2021"],
+            "Average Value": [avg_2000, avg_2021]
+        }
+        fig = go.Figure(
+            data=[go.Bar(x=bar_data["Year"], y=bar_data["Average Value"], marker_color=["#1f77b4", "#ff7f0e"])]
+        )
+        fig.update_layout(
+            title="Citywide Average Property Value: 2000 vs 2021",
+            yaxis_title="Avg Value ($)",
+            xaxis_title="Year"
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
     elif analysis == "🗺️ Interactive Map":
         st.markdown("## Interactive Choropleth Map", unsafe_allow_html=True)
@@ -157,13 +168,28 @@ def run():
 
     elif analysis == "⚖️ Comparative Analysis":
         st.markdown("## Neighborhood Value Comparison Radar", unsafe_allow_html=True)
-        choices = st.multiselect("Select neighborhoods (3–6)", merged_gdf["neighborhood"].unique().tolist(), ["Back Bay", "Roxbury", "Dorchester"])
+        choices = st.multiselect(
+            "Select neighborhoods (3–6)",
+            merged_gdf["neighborhood"].unique().tolist(),
+            ["Back Bay", "Roxbury", "Dorchester"]
+        )
+        metrics = ["TOTAL_VALUE_mean", "LIVING_AREA_mean", "RES_FLOOR_mean", "bike_stations_count"]
         if 3 <= len(choices) <= 6:
             comp = merged_gdf[merged_gdf["neighborhood"].isin(choices)]
-            metrics = ["TOTAL_VALUE_mean", "LIVING_AREA_mean", "RES_FLOOR_mean", "bike_stations_count"]
             mean_vals = comp.groupby("neighborhood")[metrics].mean().reset_index()
+
+            # Min-max normalization for each metric
+            norm_means = mean_vals.copy()
+            for metric in metrics:
+                min_val = mean_vals[metric].min()
+                max_val = mean_vals[metric].max()
+                if max_val > min_val:
+                    norm_means[metric] = (mean_vals[metric] - min_val) / (max_val - min_val)
+                else:
+                    norm_means[metric] = 0  # If all values are the same
+
             fig = go.Figure()
-            for _, row in mean_vals.iterrows():
+            for _, row in norm_means.iterrows():
                 fig.add_trace(go.Scatterpolar(
                     r=row[metrics].values,
                     theta=[m.replace("_", " ") for m in metrics],
@@ -171,9 +197,9 @@ def run():
                     name=row["neighborhood"]
                 ))
             fig.update_layout(
-                polar=dict(radialaxis=dict(visible=True)),
+                polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
                 showlegend=True,
-                title="Neighborhood Comparison"
+                title="Neighborhood Comparison (Normalized)"
             )
             st.plotly_chart(fig, use_container_width=True)
         else:
