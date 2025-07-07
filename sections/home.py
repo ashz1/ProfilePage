@@ -4,7 +4,7 @@ def run():
     st.title("Welcome 🎉")
     st.write("I'm Aashay Zende — Business Analyst, Data Engineer & Educator.")
     st.write("""
-    Aashay Zende • aashayzende@gmail.com • +1 857‑397‑2290 • Boston, MA
+    Aashay Zende   •   aashayzende@gmail.com   •   +1 857‑397‑2290   •   Boston, MA
 
 I turn data into decisions. As a Business Analyst with a master’s in Business Analytics and a background in engineering, I’ve built end‑to‑end BI solutions that bridge strategy and technology, guiding global teams to clearer insights and smarter actions. Whether crafting interactive dashboards, designing automated data pipelines, or developing forecasting models with high accuracy, I focus on reliability and impact. My collaborative approach brings together finance, product, and development stakeholders to co‑create solutions that streamline processes and spotlight growth opportunities.  \n
 
