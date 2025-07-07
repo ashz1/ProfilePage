@@ -52,12 +52,13 @@ def run():
             "📉 Safety Analysis",
             "🏘️ Neighborhood Stats",
             "📝 Survey Insights",
-            "⚖️ Comparative Analysis"
+            "⚖️ Comparative Analysis",
+            "📑 View Full Report Slides"  # <-- New option here
         ]
     )
 
     if analysis == "📈 Market Overview":
-        st.markdown("## Market Overview", unsafe_allow_html=True)
+        # existing code ...
         avg_2000 = merged_gdf["FY2000.AV_mean"].mean()
         avg_2021 = merged_gdf["FY2021.AV_mean"].mean()
         delta_pct = (avg_2021 - avg_2000) / avg_2000 * 100
@@ -85,7 +86,7 @@ def run():
         st.plotly_chart(fig, use_container_width=True)
 
     elif analysis == "🗺️ Interactive Map":
-        st.markdown("## Interactive Choropleth Map", unsafe_allow_html=True)
+        # existing code for interactive map
         metric = st.selectbox(
             "Select Metric",
             ["TOTAL_VALUE_mean", "LIVING_AREA_mean", "RES_FLOOR_mean", "robbery", "bike_stations_count"]
@@ -104,7 +105,7 @@ def run():
         folium_static(m, height=600)
 
     elif analysis == "📉 Safety Analysis":
-        st.markdown("## Crime Rates by Neighborhood", unsafe_allow_html=True)
+        # existing safety analysis code
         crime_types = ["robbery", "drug", "assault", "SHOOTING"]
         total_crime = merged_gdf[crime_types].sum(axis=1)
         df_crime = merged_gdf.assign(total_crime=total_crime).sort_values("total_crime", ascending=False)
@@ -125,7 +126,7 @@ def run():
         st.markdown('<div class="insight-box">📌 <strong>Insight:</strong> Dorchester and Roxbury have the highest crime counts, indicating priority areas for community policing.</div>', unsafe_allow_html=True)
 
     elif analysis == "🏘️ Neighborhood Stats":
-        st.markdown("## Living Area & Floors Analysis", unsafe_allow_html=True)
+        # existing neighborhood stats code
         stats = merged_gdf.groupby("neighborhood").agg({
             "LIVING_AREA_mean": "mean",
             "RES_FLOOR_mean": "mean"
@@ -159,7 +160,7 @@ def run():
         col2.plotly_chart(fig2, use_container_width=True)
 
     elif analysis == "📝 Survey Insights":
-        st.markdown("## Community Survey Highlights", unsafe_allow_html=True)
+        # existing survey insights code
         st.dataframe(survey_df)
         summary = survey_df.describe().T
         st.table(summary.style.format({
@@ -167,7 +168,7 @@ def run():
         }))
 
     elif analysis == "⚖️ Comparative Analysis":
-        st.markdown("## Neighborhood Value Comparison Radar", unsafe_allow_html=True)
+        # existing comparative analysis code
         choices = st.multiselect(
             "Select neighborhoods (3–6)",
             merged_gdf["neighborhood"].unique().tolist(),
@@ -204,19 +205,17 @@ def run():
         else:
             st.warning("Please select between 3 and 6 neighborhoods.")
 
-    # ⬇️ Display Slide Images at the Bottom
-    st.markdown("---")
-    st.markdown("## 📊 Appendix: Full Report Slides")
+    elif analysis == "📑 View Full Report Slides":
+        st.markdown("## 📊 Full Report Slides")
+        slides_folder = "slides"
 
-    slides_folder = "slides"
-
-    if os.path.exists(slides_folder):
-        slide_images = sorted(
-            [img for img in os.listdir(slides_folder) if img.endswith(".jpeg")],
-            key=lambda x: int(''.join(filter(str.isdigit, x)))
-        )
-        for slide in slide_images:
-            slide_path = os.path.join(slides_folder, slide)
-            st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
-    else:
-        st.warning("Slides folder not found. Please check your directory structure.")
+        if os.path.exists(slides_folder):
+            slide_images = sorted(
+                [img for img in os.listdir(slides_folder) if img.endswith(".jpeg")],
+                key=lambda x: int(''.join(filter(str.isdigit, x))) if any(c.isdigit() for c in x) else 0
+            )
+            for slide in slide_images:
+                slide_path = os.path.join(slides_folder, slide)
+                st.image(slide_path, use_column_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
+        else:
+            st.warning("Slides folder not found. Please check your directory structure.")
