@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 
 def run():
     st.title("Consulting Insights: Indian E-Commerce Market")
