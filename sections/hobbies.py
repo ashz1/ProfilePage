@@ -45,7 +45,7 @@ def run():
 
         # Display with fixed width to avoid full-page zoom
         if selected_file.lower().endswith(('.mp4', '.mov')):
-            st.video(media_path, start_time=0, width=600)
+            st.video(media_path, start_time=0, width=500)
         else:
             st.image(media_path, width=600)
     else:
