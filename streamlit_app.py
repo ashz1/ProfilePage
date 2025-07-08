@@ -22,7 +22,7 @@ render_about_information()
 
 tabs = st.tabs([
     "Home",
-    "Hobbies"
+    "Hobbies",
     "Project Boston",
     "E-Commerce Consulting Insights",
     
