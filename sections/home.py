@@ -1,5 +1,7 @@
 import streamlit as st
 from streamlit_pdf_viewer import pdf_viewer
+from streamlit_timeline import timeline
+import json
 
 def run():
     col1, col2 = st.columns([2, 1.5])
@@ -18,10 +20,11 @@ def run():
     with col2:
         st.image("6.jpg", use_container_width=True)
 
-    # Display Resume PDF at the bottom
-    
-    pdf_file_path = "Aashay R Zende - Resume.pdf"  # Ensure this path is correct
+    # Display Resume PDF
+    pdf_file_path = "Aashay R Zende - Resume.pdf"
     pdf_viewer(pdf_file_path, width=700, height=1000)
+
+    # Download Button
     with open(pdf_file_path, "rb") as f:
         st.download_button(
             label="Download Resume",
@@ -30,6 +33,7 @@ def run():
             mime="application/pdf",
             use_container_width=True
         )
+
     # Timeline
     st.markdown("### 📅 Timeline")
     timeline_data = {
