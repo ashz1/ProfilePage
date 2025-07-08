@@ -10,3 +10,4 @@ Pillow
 numpy
 boto3
 streamlit-pdf-viewer
+streamlit_timeline
