@@ -22,18 +22,23 @@ render_about_information()
 
 tabs = st.tabs([
     "Home",
+    "Career Timeline",
     "Hobbies",
     "Project Boston",
     "E-Commerce Consulting Insights",
     "Data Engineering Project"
 ])
 
-tab_home, tab_hobbies, tab_project_boston, tab_ecomm_consulting, tab_data_engineering = tabs
+tab_home, tab_timeline, tab_hobbies, tab_project_boston, tab_ecomm_consulting, tab_data_engineering = tabs
 
 with tab_home:
     from sections.home import run as run_home
     run_home()
-    
+
+with tab_timeline:
+    from sections.timeline import run as run_timeline
+    run_timeline()
+
 with tab_hobbies:
     from sections.hobbies import run as run_hobbies
     run_hobbies()
@@ -51,4 +56,3 @@ with tab_data_engineering:
     run_data_engineering()
 
 st.divider()
-st.markdown('[Back to Top](#aashay‑zende‑portfolio)')
