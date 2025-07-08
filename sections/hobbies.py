@@ -44,9 +44,9 @@ def run():
         st.markdown(f"#### {genre} ({st.session_state[index_key]+1} of {total_files})")
 
         # Display with fixed width to avoid full-page zoom
-        if selected_file.lower().endswith(('.mp4', '.mov')):
-            st.video(media_path, start_time=0, use_container_width=400)
-        else:
-            st.image(media_path, use_container_width=400)
+         if selected_file.lower().endswith(('.mp4', '.mov')):
+          st.video(media_path, start_time=0, width=600)
+         else:
+          st.image(media_path, width=600)
     else:
         st.warning("This genre folder does not exist.")
