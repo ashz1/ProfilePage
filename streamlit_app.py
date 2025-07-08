@@ -22,9 +22,10 @@ render_about_information()
 
 tabs = st.tabs([
     "Home",
+    "Hobbies"
     "Project Boston",
     "E-Commerce Consulting Insights",
-    "Hobbies"
+    
 ])
 
 tab_home, tab_project_boston, tab_ecomm_consulting, tab_hobbies = tabs
@@ -32,7 +33,11 @@ tab_home, tab_project_boston, tab_ecomm_consulting, tab_hobbies = tabs
 with tab_home:
     from sections.home import run as run_home
     run_home()
-
+    
+with tab_hobbies:
+    from sections.hobbies import run as run_hobbies
+    run_hobbies()
+    
 with tab_project_boston:
     from sections.project_boston import run as run_project_boston
     run_project_boston()
@@ -41,9 +46,7 @@ with tab_ecomm_consulting:
     from sections.ecomm_consulting import run as run_ecomm_consulting
     run_ecomm_consulting()
 
-with tab_hobbies:
-    from sections.hobbies import run as run_hobbies
-    run_hobbies()
+
 
 st.divider()
 st.markdown('[Back to Top](#aashay‑zende‑portfolio)')
