@@ -6,6 +6,7 @@ from shapely import wkt
 from streamlit_folium import folium_static
 import plotly.graph_objects as go
 import os
+from streamlit_pdf_viewer import pdf_viewer
 
 def run():
     st.markdown("""
@@ -53,12 +54,12 @@ def run():
             "🏘️ Neighborhood Stats",
             "📝 Survey Insights",
             "⚖️ Comparative Analysis",
-            "📑 View Full Report Slides"  # <-- New option here
+            "📑 View Full Report Slides",
+            "📘 View Full PDF Report"
         ]
     )
 
     if analysis == "📈 Market Overview":
-        # existing code ...
         avg_2000 = merged_gdf["FY2000.AV_mean"].mean()
         avg_2021 = merged_gdf["FY2021.AV_mean"].mean()
         delta_pct = (avg_2021 - avg_2000) / avg_2000 * 100
@@ -86,7 +87,6 @@ def run():
         st.plotly_chart(fig, use_container_width=True)
 
     elif analysis == "🗺️ Interactive Map":
-        # existing code for interactive map
         metric = st.selectbox(
             "Select Metric",
             ["TOTAL_VALUE_mean", "LIVING_AREA_mean", "RES_FLOOR_mean", "robbery", "bike_stations_count"]
@@ -105,7 +105,6 @@ def run():
         folium_static(m, height=600)
 
     elif analysis == "📉 Safety Analysis":
-        # existing safety analysis code
         crime_types = ["robbery", "drug", "assault", "SHOOTING"]
         total_crime = merged_gdf[crime_types].sum(axis=1)
         df_crime = merged_gdf.assign(total_crime=total_crime).sort_values("total_crime", ascending=False)
@@ -126,7 +125,6 @@ def run():
         st.markdown('<div class="insight-box">📌 <strong>Insight:</strong> Dorchester and Roxbury have the highest crime counts, indicating priority areas for community policing.</div>', unsafe_allow_html=True)
 
     elif analysis == "🏘️ Neighborhood Stats":
-        # existing neighborhood stats code
         stats = merged_gdf.groupby("neighborhood").agg({
             "LIVING_AREA_mean": "mean",
             "RES_FLOOR_mean": "mean"
@@ -160,7 +158,6 @@ def run():
         col2.plotly_chart(fig2, use_container_width=True)
 
     elif analysis == "📝 Survey Insights":
-        # existing survey insights code
         st.dataframe(survey_df)
         summary = survey_df.describe().T
         st.table(summary.style.format({
@@ -168,7 +165,6 @@ def run():
         }))
 
     elif analysis == "⚖️ Comparative Analysis":
-        # existing comparative analysis code
         choices = st.multiselect(
             "Select neighborhoods (3–6)",
             merged_gdf["neighborhood"].unique().tolist(),
@@ -219,3 +215,9 @@ def run():
                 st.image(slide_path, use_container_width=True, caption=slide.replace(".jpeg", "").replace("Slide", "Slide "))
         else:
             st.warning("Slides folder not found. Please check your directory structure.")
+
+    elif analysis == "📘 View Full PDF Report":
+        st.markdown("## 📘 Project Boston Full PDF Report")
+        pdf_viewer("Project Boston.pdf", width=1000)
+        with open("Project Boston.pdf", "rb") as f:
+            st.download_button(label="📥 Download PDF Report", data=f, file_name="Project Boston.pdf")
