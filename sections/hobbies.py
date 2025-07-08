@@ -49,9 +49,9 @@ def run():
         st.markdown(f"#### {genre} ({st.session_state[index_key]+1} of {total_files})")
 
         if selected_file.lower().endswith(('.mp4', '.mov')):
-            st.video(media_path, start_time=0, width=1080)
+            st.video(media_path, start_time=0, width=850)
         else:
-            st.image(media_path, width=1080)
+            st.image(media_path, width=850)
 
     else:
         st.warning("This genre folder does not exist.")
