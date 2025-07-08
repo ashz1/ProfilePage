@@ -28,7 +28,7 @@ tabs = st.tabs([
     
 ])
 
-tab_home, tab_project_boston, tab_ecomm_consulting, tab_hobbies = tabs
+tab_home, tab_hobbies, tab_project_boston, tab_ecomm_consulting = tabs
 
 with tab_home:
     from sections.home import run as run_home
