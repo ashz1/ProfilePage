@@ -8,3 +8,4 @@ plotly>=5.14.0
 pdf2image
 Pillow
 numpy
+boto3
