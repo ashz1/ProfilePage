@@ -25,10 +25,10 @@ tabs = st.tabs([
     "Hobbies",
     "Project Boston",
     "E-Commerce Consulting Insights",
-    
+    "Data Engineering Project"
 ])
 
-tab_home, tab_hobbies, tab_project_boston, tab_ecomm_consulting = tabs
+tab_home, tab_hobbies, tab_project_boston, tab_ecomm_consulting, tab_data_engineering = tabs
 
 with tab_home:
     from sections.home import run as run_home
@@ -46,7 +46,9 @@ with tab_ecomm_consulting:
     from sections.ecomm_consulting import run as run_ecomm_consulting
     run_ecomm_consulting()
 
-
+with tab_data_engineering:
+    from sections.data_engineering import run as run_data_engineering
+    run_data_engineering()
 
 st.divider()
 st.markdown('[Back to Top](#aashay‑zende‑portfolio)')
