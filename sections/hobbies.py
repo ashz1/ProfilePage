@@ -45,8 +45,8 @@ def run():
 
         # Display with fixed width to avoid full-page zoom
         if selected_file.lower().endswith(('.mp4', '.mov')):
-            st.video(media_path, start_time=0, width=500)
+            st.video(media_path, start_time=0, use_container_width=400)
         else:
-            st.image(media_path, width=600)
+            st.image(media_path, width=400)
     else:
         st.warning("This genre folder does not exist.")
