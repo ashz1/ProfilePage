@@ -1,6 +1,6 @@
 import streamlit as st
 
-def run_hobbies():
+def run():
     st.title("📸 Hobbies")
 
     genres = {
