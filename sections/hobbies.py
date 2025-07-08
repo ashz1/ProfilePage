@@ -14,7 +14,7 @@ def run():
     st.title("🎨 Hobbies")
 
     # Select genre
-    genre = st.selectbox("Choose a Genre", list(GENRE_FOLDERS.keys()))
+    genre = st.selectbox("Choose one to view", list(GENRE_FOLDERS.keys()))
     folder_path = GENRE_FOLDERS[genre]
 
     if os.path.exists(folder_path):
