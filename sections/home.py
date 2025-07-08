@@ -19,6 +19,14 @@ def run():
         st.image("6.jpg", use_container_width=True)
 
     # Display Resume PDF at the bottom
-    st.markdown("### 📄 Resume")
+    
     pdf_file_path = "Aashay R Zende - Resume.pdf"  # Ensure this path is correct
     pdf_viewer(pdf_file_path, width=700, height=1000)
+    with open(pdf_file_path, "rb") as f:
+        st.download_button(
+            label="Download Resume",
+            data=f,
+            file_name="Aashay_R_Zende_Resume.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
