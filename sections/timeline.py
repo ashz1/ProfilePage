@@ -51,6 +51,7 @@ def run():
         },
         {
             "start_date": {"year": "2025", "month": "01"},
+            "end_date": {"year": "Present"},
             "text": {"headline": "Business Analyst - Radiant Consulting"}
         }
         ]
