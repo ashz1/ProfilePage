@@ -41,7 +41,7 @@ def run():
             "text": {"headline": "MS in Business Analytics - Northeastern University"}
         },
         {
-            "start_date": {"year": "2024", "month": "01"},
+            "start_date": {"year": "2025", "month": "01"},
             "text": {"headline": "Business Analyst - Radiant Consulting"}
         },
         {
