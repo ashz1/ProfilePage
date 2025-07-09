@@ -41,10 +41,6 @@ def run():
             "text": {"headline": "MS in Business Analytics - Northeastern University"}
         },
         {
-            "start_date": {"year": "2025", "month": "01"},
-            "text": {"headline": "Business Analyst - Radiant Consulting"}
-        },
-        {
             "start_date": {"year": "2024", "month": "04"},
             "text": {"headline": "Mentor & Teacher - TSNE / Dudley St Charter School"}
         },
@@ -52,6 +48,10 @@ def run():
             "start_date": {"year": "2024", "month": "06"},
             "end_date": {"year": "2024", "month": "12"},
             "text": {"headline": "Business Analyst Intern - Clatch Fund"}
+        }
+        {
+            "start_date": {"year": "2025", "month": "01"},
+            "text": {"headline": "Business Analyst - Radiant Consulting"}
         }
         ]
     }
