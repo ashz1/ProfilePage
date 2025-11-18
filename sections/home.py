@@ -19,6 +19,5 @@ def run():
         st.image("6.jpg", use_container_width=True)
 
 
-        )
 
 
