@@ -45,10 +45,19 @@ def run():
             "end_date": {"year": "2024", "month": "12"},
             "text": {"headline": "Business Analyst Intern - Clatch Fund"}
         },
-        {
+            {
             "start_date": {"year": "2025", "month": "01"},
             "end_date": {"year": "2025", "month": "12"},
+            "text": {"headline": "Business Analyst - Radiant"}
+        },
+        {
+            "start_date": {"year": "2025", "month": "01"},
+            "end_date": {"year": "2025", "month": "08"},
             "text": {"headline": "STEM Instructor - Athena Coding"}
+        },
+            {
+            "start_date": {"year": "2025", "month": "09"},
+            "text": {"headline": "STEM Instructor - Advent"}
         }
         ]
     }
